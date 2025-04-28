@@ -1,0 +1,26 @@
+services:
+  ros2_tts:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ros2_tts
+    restart: unless-stopped
+    network_mode: "host"  # This allows direct access to the host network
+    environment:
+      - ROS_DOMAIN_ID=0  # Change this if you want to isolate ROS2 networks
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp  # Using FastRTPS for better network performance
+    volumes:
+      - ../:/ros2_ws/src/ros2_tts
+      - ${HOME}/.cache:/root/.cache
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, compute, utility]
+    # For testing, run both the TTS node and test node
+    command: bash -c "source /opt/ros/humble/setup.bash && source /ros2_ws/install/setup.bash && python3 /ros2_ws/src/ros2_tts/ros2_tts/tts_node.py"
+    # For production, you might want to run just the TTS node:
+    # command: ros2 run ros2_tts tts_node 
+ 

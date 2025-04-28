@@ -1,0 +1,30 @@
+# Model settings
+model:
+  repo_id: "sesame/csm-1b"
+  device: "cuda"  # or "cpu" for non-GPU systems
+  use_speaker_prompt: false  # set to true if you want to use speaker prompt
+
+# HuggingFace settings
+huggingface:
+  token: "Your HuggingFace token"
+
+# Speaker prompt (optional configuration)
+speaker_prompt:
+  text: "like revising for an exam I'd have to try and like keep up the momentum because I'd start really early"
+  audio_path: "prompts/speaker.wav"
+  speaker_id: 0
+
+# Audio settings
+audio:
+  sample_rate: 24000
+  max_audio_length_ms: 10000
+
+# Input/Output paths
+paths:
+  output_dir: "generated_audio"
+  prompt_dir: "prompts"
+
+# Watermark settings
+watermark:
+  enabled: true  # set to false to disable watermarking
+  key: [212, 211, 146, 56, 201]  # Default CSM watermark key 
